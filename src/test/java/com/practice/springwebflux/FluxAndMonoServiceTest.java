@@ -17,6 +17,7 @@ public class FluxAndMonoServiceTest {
   @Test
   public void testTechStackFlux() {
     var flux = fluxAndMonoService.techStackFlux();
+    // create takes care of invoking subscribe call
     StepVerifier.create(flux)
 //        .expectNext("SpringBoot", "SpringData", "SpringWebFlux")
         .expectNextCount(3)
@@ -65,6 +66,30 @@ public class FluxAndMonoServiceTest {
     var flux = fluxAndMonoService.techStackMonoFlatMap();
     StepVerifier.create(flux)
         .expectNext(Arrays.asList("S", "p", "r", "i", "n", "g", "W", "e", "b", "F", "l", "u", "x"))
+        .verifyComplete();
+  }
+
+  @Test
+  void techStackMonoFlatMapMany() {
+    var flux = fluxAndMonoService.techStackMonoFlatMapMany();
+    StepVerifier.create(flux)
+        .expectNext("S", "p", "r", "i", "n", "g", "W", "e", "b", "F", "l", "u", "x")
+        .verifyComplete();
+  }
+
+  @Test
+  void stackFluxTransform() {
+    var flux = fluxAndMonoService.stackFluxTransform();
+    StepVerifier.create(flux)
+        .expectNext("S", "p", "r", "i", "n", "g", "B", "o", "o", "t")
+        .verifyComplete();
+  }
+
+  @Test
+  void stackCombineConcat() {
+    var flux = fluxAndMonoService.combineConcat();
+    StepVerifier.create(flux)
+        .expectNext("A", "B", "C", "D", "E", "F")
         .verifyComplete();
   }
 }
